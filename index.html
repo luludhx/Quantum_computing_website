@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Quantum Computing</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none">Quantum Computing</span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/uoblogo3.png" alt="..." /></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#annealing">Quantum Annealing</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Superconducting Quantum Computers">Superconducting Quantum Computers</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#cryptography">Shor's Algorithm</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Grover">Grover's Algorithm</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#dev">Quantum Error Correction</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#ER=EPR">ER=EPR</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container-fluid p-0">
+            <!-- About-->
+            <section class="resume-section" id="annealing">
+                <div class="resume-section-content">
+                    <h1 class="mb-0">
+                        Quantum
+                        <span class="text-primary">Computing</span>
+                    </h1>
+                    <div class="subheading mb-5">
+                        University of Birmingham · Department of Physics and Astronomy
+
+                        
+
+                    
+                       
+            
+                    </div>
+                    <p>
+                        Quantum Computers are commonly understood as gate based processors which can perform logical operations on 
+                        qubits. The hope is that once successfully engineered they will be able to execute specific tasks much faster and more accurately
+                        than classical, transistor-based computers. Examples of such tasks, Grover's and Shor's algorithms,  are elaborated on in sections <a href="#cryptography">3</a> and <a href="#Grover">4</a>. 
+                        Additionally, they can solve physical problems- a discussion and example of which is laid out in section <a href="#ER=EPR">6</a>.
+                        <br>
+                        <br>
+                        Progress in manufacture and implementation is ongoing, with the promised 'Quantum Advantage' seemingly ever-closer yet always behind a slew of obstacles. A significant hinderance is quantum decoherence, wherein the 
+                        computer's quantum state couples with its environment and loses information. In more complex terms - the quantum gates become irreversible. To handle this, quantum error correction codes are implemented. A simplified version is laid out in section <a href="#dev">5</a>.
+                        <br>
+                        <br>
+                        There are many different types of qubit - such as ionic, neutral atom, photonic and superconducting- each with their advantages and limitations. The physics behind superconducting qubits 
+                        is described in section <a href="#Superconducting Quantum Computers">2</a>, and an interesting application of this type of qubit is described imminently.
+                        <br>
+                        <br>
+                    </p>
+
+                    <h2 class="mb-5">Quantum Annealing</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Introduction</h3>
+                            <br>
+                            <p>
+                                Quantum annealers are machines
+                                which use qubits, but not gates, to perform optimisation. The versatility of (error free) quantum 
+                                computers is much more than that of a Quantum annealer, but still annealers promise to perform practical
+                                tasks at a faster rate than classical computers, and in fact already have (see the end of this section). Moreover, Quantum annealing is
+                                a heuristic, meaning that it generally offers a 'good enough' solution, not the best one - yet this is
+                                not so much of an obstacle and more provides a sort of wiggle room not applicable to the gate-based 
+                                QPUs. The physics behind annealers and their applications are more concisely 
+                                laid out in the ensuing subsections.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">General Theory</h3>
+                            <div class="subheading mb-3">Problem Formulation</div>
+                            <p>
+                                Annealers are suited to solving Quadratic Unconstrained Binary Optimisation (QUBO) problems,
+                                which are combinatorial optimisation problems with an objective function of binary variables \(x_i \in {0,1}\) with only linear and quadratic terms. The objective function
+                                is optimised by the minimising combination of the set of binary variables. The objective function takes the form:
+                                \[ \operatorname{Obj}(\mathbf{x})=\sum_{i,j=1}^N Q_{i, j} x_i x_j+\sum_{i=1}^N c_i x_i \]
+                                where the first sum on the right hand side encapsualtes the quadratic terms and the latter the linear terms. 
+                                <p>
+                                    The first limitation of this condition is that practical problems tend to 
+                                    have contstraints, ie conditions that the variables must adhere to. A simple example of such a problem is the travelling salesperson problem, wherein one wants to find the shortest route a saleperson can take which visits all of the locations in a town, 
+                                    or equivalently nodes on a graph, at least once. The contraint here is that the salesperson must only be in a single location at each stage of the trip. For example with three locations (ie variables) a,b,c
+                                    one requires \(a+b+c = 1\) where \(a=1\) is taken to be the truth condition. This is a linear constraint and hence can be added as a penalty term to the objective function:
+                                    \[E_k = (a+b+c -1)^2 = P_k^2\]
+                                    since this term will be minimised when only one of a,b,c are equal to 1. With multiple linear constraints \(P_k(\mathbf{x})\), the objective function undergoes the change:
+                                    \[ \operatorname{Obj}(\mathbf{x}) \mapsto \operatorname{Obj}(\mathbf{x})+\sum_{k}\lambda_k P_k(\mathbf{x})^2 \]
+                                    where the \( \lambda_k\) is tuned so that the \(P_k\) are dominant and combinations which optimise \( \operatorname{Obj}(\mathbf{x}) \) will not violate the constraints. 
+                                    A more detailed discussion of problem formulation and constraints can be found in <a href="https://doi.org/10.1088/1361-6633/ac8c54 "> this </a> review paper and on <a href="https://docs.dwavesys.com/docs/latest/doc_getting_started.html">D-waves website.</a>
+                                </p>
+                                <p>
+                                    The problem here is of course not all constraints may be linear, and many problems go beyond quadratic order. Hence the annealer is limited to only a set of specific
+                                    problems. The objective function is equivalent a graph \(G(V,E)\) with edges \(E\) and vertices \(V\), where the edges have weights \(Q_{i,j}\), and the vertices correspond to the variables \(x_i\) with 
+                                    biases \( c_i\). This graph is embedded into the physical arrangement of qubits in the annealer, which themselves also correspond to a graph, as shown in Figure. 1.  
+                                </p>
+                                <br>
+
+                                <center><figure class='image-centre'><img src="assets/img/graphs.png" height = "300"><figcaption>Figure 1 - Graphs of Chimera(a) and Pegasus(b) Topologies used in D-wave 2000Q and Advantage annealers respectively, each with vertices of degree 6 and degree 15. Taken from<a href="
+                                    https://doi.org/10.1007/s11128-021-03226-6
+                                    "> this paper.</a></figcaption></figure></center>
+                                <br>
+                            </p>
+                            <div class="subheading mb-3">Problem Implementation</div>
+                            <p>
+                                When one thinks of the objective function as an energy, the physical parallels become clear. Systems naturally want to minimise their energy - a ball will roll down a hill to minimise its
+                                graviational potetntial energy, and hot tea goes cold. Thermal annealing, a 6000 year old process, relies on this principle to remove defects in metals. Simulated classical annealing is a widely used heuristic algorithm which
+                                simulates thermal effects in order to minimise an objective function in a similar way. This process relies on virtually heating the system then slowly reducing the temperature so the variables settle into
+                                values or 'states' which minimise the energy, relying on simulated thermal excitations to overcome potential barriers. Quantum annealing works in a similar way, employing quantum tunnneling to get through such barriers.
+                                </p>
+                                <p>
+                                    The objective function is equivalent to the Hamiltonian of the annealer, which is an ising model hamiltonian of the form:
+
+                                    \[ \mathcal{H}(t) =\sum_{(i,j) \in E} J_{i,j} \sigma_i^z \sigma_j^z+ \sum_{i \in V} h_i \sigma_i^z+\Gamma(t) \sum_{i \in V} \sigma_i^x \\
+                                     \equiv \mathcal{H}_0-\Gamma(t) \sum_{i \in V} \sigma_i^x \]
+    
+                                    where the previous binary variable is now a spin variable as the hardware runs on superconducting qubits instead of transistors. More information on the nature of qubits can
+                                    be found in the qubits section of this webpage, and a more detailed description of the ising model along with numerical results of simulated vs quantum annealing can be found in <a href="
+                                    https://doi.org/10.48550/arXiv.cond-mat/9804280 "> here.</a>
+                                </p>
+                                <p>
+                                    Here the \(\sigma_i^z\) are the pauli spin operators and the spins can be measured to be \( \pm 1\). The \(J_{i,j} \) and \(h_i\) are the qubit coupling strengths and biases, and \( \Gamma \)
+                                    is a time-varying transverse magnetic field.
+                                    Coupling strength is controlled by couplers, which can be either ferromagnetic or anti-ferromagnetic, and quantifies how much nearest neighbour qubits may interact. 
+                                    More specifically, ferromagnetic coupling makes qubits want to align while the anti-ferromagnetic coulping makes them what to anti-align. Physically, this is known as entanglement and allows the qubits
+                                    to form an entangled state which is the quantum wavefunction that the Hamiltonian \(\mathcal{H}(t)\) measures the energy of.
+                                </p>
+                                <p>
+                                    During the annealing process, the magnetic field starts off strong and is slowly reduced to zero. If this process is slow enough then if the system begins in its ground state, it should finish 
+                                    in the ground state, hence providing the configuration of spins that minimises the energy of the problem hamiltonian, \( \mathcal{H}_0 \). This works due to the adiabatic theorem, which states that if a
+                                    closed quantum system described by a time dependent Hamiltonian \(\mathcal{H}(t)\) is initially prepared in its ground state, then it remains in its ground state provided the rate 
+                                    of change of the Hamiltonian is sufficiently slow. More specifically, if the process is adiabatic (no heat goes in or out) and the time of the anneal T satisfies the <a href="
+                                    https://doi.org/10.48550/arXiv.0810.4335 "> adiabatic condition</a>:
+                                    \[ T \gg \max _{s \in[0,1]} \frac{\left|\left\langle E_1|d H / d s| E_0\right\rangle\right|}{\Delta_{\mathrm{10}}^2} \]
+                                    where \(s\) is normalised time, \(t/T\) and the denominator is the modulus sqaured of the energy difference between the ground and 1st excited state energies. The value of \(\Delta_{\mathrm{10}}^2\) changes as \(\mathcal{H}(t)\) varies
+                                    since the energy eigenspectrum of the Hamiltonian changes over time, as shown in Figure 2.
+                                    <br>
+                                    <br>
+                                    <center><figure class='image-centre'><img src="assets/img/grover.png" height = "300"><figcaption>Figure 2 - The energy eigenspectrum of Grover's Problem formulated for an adiabatic quantum computer. The x-axis is normalised time. Taken from <a href="
+                                        https://doi.org/10.48550/arXiv.quant-ph/0001106
+                                        Focus to learn more"> this paper.</a></figcaption></figure></center>
+                                    <br>
+                                </p>
+                                <p>
+                                    Hence we arrive at another signifiant limiting factor of quantum annealing - the maximum of this fraction is at the minimum energy gap between the ground and 1st excited state, which can be very small. Finding this value is at least as hard as
+                                    finding the ground state of \( \mathcal{H}_0 \) and hence difficulty arises in ensuring the process happens adiabatically. However, it's important to note that the first excited state is still low
+                                    energy, just not the minimum energy, so if the adiabatic limit is not adhered to perfectly an approximate solution may still be found.
+                                </p>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Industry Application - D-wave systems</h3>
+                            <br>
+                            <p>
+                                D-wave Systems built and marketed their first superconducting-circuit Quantum Annealer in 2011 which had 128 qubits and 352 couplers. In 2020 they released their 'Advantage'
+                                processor, with 5640 super-conducing flux qubits and 40,484 couplers. They are leading the quantum annealing industry and making fast progress, but they still face the same afformentioned difficulties with problem 
+                                limitations and time constraints. Their Hamiltonian takes a slightly different form:
+                                \[\mathcal{H}_{\text {ising }}=\underbrace{\frac{A(s)}{2}\left(\sum_{i \in V} \hat{\sigma}_i^{x}\right)}_{\text {Initial Hamiltonian }}+\underbrace{\frac{B(s)}{2}\left(\sum_{i \in V} h_i \hat{\sigma}_i^{z}+\sum_{(i,j) \in E} J_{i, j} \hat{\sigma}_i^{z} \hat{\sigma}_l^{z}\right)}_{\text {Final Hamiltonian }}\]
+                                where \( \mathcal{H}_0 \) is now simply superposition state of all the qubits in their ground state with equal probability of up and down spin projection, and the amplitude of both hamiltonians is controlled in tandem.
+                                The problem hamiltonian is slowly implemented through the use of controlling magnetic fields and introducing couplings as previously mentioned. This initial quantum state is comparitively easy to
+                                prepare and if the adiabatic condition is followed D-wave annealers should be able to find a good solution, although repeated runs may be required to sieve out runs where the state got too excited.
+                                <p> 
+                                    A signifiant obstacle facing D-wave systems is the process of embedding the graph representing the logical graph into the graph representing the arrangements of qubits. As in figure 1, 
+                                    the most recent annealer has a graph of degree 15, meaning 1 qubit connects to 15 others, which may not be sufficient
+                                    to directly implement all the \(Q_{i,j}\) terms in the problem objective function. As such, mapping the equivalent problem requires
+                                    the creation of chains of strongly coupled qubits which represent a single problem variable, as demonstrated in Figure 3. Such chains require strongly coupled qubits to not break during the anneal, which can interefere with the intra-chain couplings
+                                    \(J_{i,j}\) if the magnitude of the coupling is too strong, and introduce errors. Minimsing the effect of this and making annealers more 
+                                    effective is an active area of research, for more read <a href="https://doi.org/10.1088/2058-9565/ac26d2">this paper</a>. An interesting limitation is
+                                    that if the graphs are hihly connected, couplings can interfere in an effect called noise aggregation, reducing the effectiveness of highly connected
+                                    graphs which could have been embedded into graphs of a lesser degree.
+                                </p>
+                                <br>
+                                <br>
+                                <center><figure class='image-centre'><img src="assets/img/embedding example.png" height = "300"><figcaption><br>Figure 3 - Embedding using chains of Qubits. Taken from <a href="https://doi.org/10.48550/arXiv.2112.07491"> this paper.</a></figcaption></figure></center>
+                            </p>
+                            
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Quantum advantage?</h3>
+                            <br>
+                            <p>
+                                <a href="https://doi.org/10.1103/PhysRevE.58.5355">Early numerical results</a> found that simulated quantum annealing outperformed the already well-established 
+                                simulated thermal annealing when finding the ground state of small size systems. A strong theoretical argument for this is the thermal excitations used to escape local
+                                minima are limited by the height of potential barriers while the quantum state may tunnel through arbritrarily high yet narrow barriers. This is to say that 
+                                quantum annealing is a more effective heuristic method at finding the global minimum of QUBO problems. Indeed in 2023, D-waves 'Advantage' processor <a href="https://doi.org/10.1038/s41586-023-05867-2">outperformed
+                                analogous monte carlo methods</a> in finding the ground state of a 3D spin glass- an irregular 3D system of magnetic spins with random couplings.
+                                <br>
+                                <br>
+                                While this is a significant step towards the ever sought-after 'quantum advantage' that quantum computing enthusiasts and academics have promised for decades, it sadly is not a definitive advantage.
+                                The problem solved was very physical, so while this means annealers are useful machines for solving problems in physics, real-world problems are still yet to be favoured by the machines. There are a lot of speculative applications 
+                                of annealing across quantum chemistry, logistics problems in industry, finance and machine learning to name a few- all of which can be read about <a href="https://doi.org/10.1088/1361-6633/ac8c54 "> here. </a> Interestingly, D-wave 
+                                annealers are already being tested on industry data- for example in 2019 D-wave's 2000Q annealer was used on airport data and <a href="https://doi.org/10.1007/978-3-030-14082-3_9">successfully optimised flight gate assignment.</a>
+                                <br>
+                                <br>
+                                Hence, given the current state of quantum annealing and the continuous research efforts behind it, it is likely that industry effective Quantum Annealers are only a matter of time away. 
+
+                            </p>
+                            
+                        </div>
+                    </div>
+                
+                </div>
+                   
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Experience-->
+            <section class="resume-section" id="Superconducting Quantum Computers">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Superconducting Quantum Computers</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+
+                        <div class="flex-grow-1">
+
+                            <h3 class="mb-0">Building the qubit</h3>
+
+                            <p>Below a critical temperature Tc, certain materials become superconducting, meaning they have zero resistance to the flow of electric current. This current is made up of “Cooper pairs”: two electrons bound together by an attractive force due to electron-phonon interactions, which can move with no friction.
+
+                                 A certain amount of energy is needed to break the pair up, and they dissipate no energy, meaning they interact very little with their environment, making them ideal for a quantum computer.</p>
+
+                            <p>The qubit must have quantised energy levels, so must act like a quantum harmonic oscillator. A candidate for this is a circuit with a capacitor and inductor using superconducting wires. This superconducting circuit has quantised and equally spaced energy levels, due to the shape of its potential.
+
+                            <p>However, in order to make a two-level system, the energy levels must be uneven, so photons do not cause energy transitions between multiple states. More detail on this can be found <a href="https://quantumpoet.com/superconducting-quantum-computing/"> here. </a> A non-linear circuit component is therefore needed, such as a Josephson junction: a thin insulating layer between two superconducting layers, which Cooper pairs can tunnel through. 
+
+                                When the inductor is replaced with a Josephson junction in the circuit, a superconducting current can still flow, although this time with unevenly spaced energy levels.</p>
+
+                        </div>
+
+                        <div class="flex-shrink-0"><span class="text-primary"></span></div>
+
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+
+                        <div class="flex-grow-1">
+
+                            <h3 class="mb-0">Types of superconducting qubits</h3>
+
+                            <div class="subheading mb-3">Charge qubit</div>
+
+                            <p>The simplest superconducting qubit is the charge qubit, also called the Cooper pair box. This consists of a capacitor, Josephson junction and voltage source in series.
+
+                                The region between the capacitor and junction is the ‘island’, and the rest is the ‘reservoir’.  Hence, the two basis states in the charge qubit correspond to the number of excess cooper pairs in the <a href="https://medium.com/qiskit/how-the-first-superconducting-qubit-changed-quantum-computing-forever-96cf261b8498">island</a>.
+
+                                The external voltage of the circuit can be controlled to ensure the two lowest states are close together and much lower than other energy levels. Quantum tunnelling through the Josephson junction then leads to a superposition of these basis states.</p>
+
+                                <div class="subheading mb-3">Flux qubit</div>
+
+                                <p>Another commonly used qubit is the flux qubit, often called an RF-SQUID, which involves multiple Josephson junctions connected by superconducting loops. An applied external magnetic flux controls the current in the circuit, without a voltage source.
+
+                                     This can be manipulated to make the two basis states equivalent to a clockwise current and an anticlockwise current in the loop. A small energy gap between the states allows for quantum tunnelling. More information can be found <a href="https://physicsworld.com/a/superconducting-quantum-bits/">here</a>. </p>
+
+                                     <p><a href="https://link.springer.com/chapter/10.1007/978-3-030-75436-5_15"><img class="img-fluid" src="assets/img/qubits.png" alt="" /></a></p>
+
+                        </div>
+
+                        <div class="flex-shrink-0"><span class="text-primary"></span></div>
+
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+
+                        <div class="flex-grow-1">
+
+                            <h3 class="mb-0">Operations on qubits</h3>
+
+                            <div class="subheading mb-3">Quantum gates</div>
+
+                            <p>The superconducting qubits are coupled to an LC circuit, which acts as a resonator. Operations are performed on the qubit by sending a microwave radiation impulse to the resonator, causing oscillations between the two basis states.
+
+                                 Different durations of pulses correspond to different <a href="https://jonathan-hui.medium.com/qc-how-to-build-a-quantum-computer-with-superconducting-circuit-4c30b1b296cd">operations</a>. </p>
+
+                            <p>Quantum computations are done using quantum logic gates, which perform unitary operations on qubits. A set of gates commonly used in superconducting quantum computers are single-bit gates and the CNOT (controlled-NOT) gate. </p>
+
+                            <p>A qubit can be represented by a vector in a Bloch sphere, and single-qubit gates correspond to rotations around the sphere. These are implemented using microwave impulses.
+
+                                Two-qubit gates, such as the CNOT gate, are performed using microwave impulses on qubits coupled together by a capacitor or a shared resonator. The CNOT gate flips the value of the second qubit if and only if the first qubit is in the excited state.
+
+                                 More detail on the gates used can be found on <a href="https://arxiv.org/pdf/cond-mat/9908283.pdf">this</a> paper.</p>
+
+                                <p><img class="img-fluid" src="assets/img/cnot.png" alt="" /></p>
+
+                            <div class="subheading mb-3">Measurements</div>
+
+                            <p>Measurements of the state can be made using a resonator coupled to the qubit. When a pulse is sent, the resonator transmits a signal back. The amplitude and phase can be analysed to identify the state.</p>
+
+                            <p>In a flux qubit, the direction of current and therefore the qubits state is measured using a SQUID (superconducting quantum interference device). This is a very sensitive magnetic flux detector, made up of two parallel Josephson junctions.</p>
+
+                            </div>
+
+                        <div class="flex-shrink-0"><span class="text-primary"></span></div>
+
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+
+                        <div class="flex-grow-1">
+
+                            <h3 class="mb-0">Recent developments</h3>
+
+                            <p>Superconductors are very large systems compared to other quantum computers, causing more interaction with the environment and hence shorter decoherence times. 
+
+                                The current decoherence time is long enough to perform single-qubit gates however problems arise when it comes to multi-qubit gates, which are much slower. 
+
+                                The accuracy of a measurement also increases with time, so a shorter decoherence time limits the precision of the <a href="https://pennylane.ai/qml/demos/tutorial_sc_qubits/"> measurements</a>. </p>
+
+                            <p>The decoherence times has been increased massively over the last few years using techniques such as fabrication, shielding and cryogenic cooling. 
+
+                                Quantum error correction, such as surface codes, is also being implemented to reduce errors and allow the scaling up of the number of qubits.</p>
+
+                        </div>
+                        
+
+                </div>
+                
+            </section>
+            <hr class="m-0" />
+            <!-- Education-->
+            <section class="resume-section" id="cryptography">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Shor's Algorithm</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <!-- <h3 class="mb-0">Senior Web Developer</h3>
+                            <div class="subheading mb-3">Intelitec Solutions</div> -->
+                            
+                            <p>Public key or asymmetric cryptography relies on trapdoor functions. These functions are easy to compute one way, but difficult to invert without an additional piece of information: the trapdoor. The output of a trapdoor function forms the basis of a public key, a large integer which allows a message to be encrypted. This message can only be decrypted with a second private key based on the trapdoor.
+
+                            </p><p>For example, a classical computer can multiply two numbers much faster than it could factorise the result. If one factor of the number is known, then finding the other is reduced to division, which is about as fast as multiplication. The RSA cryptosystem, the oldest public key cryptosystem still widely used today, relies on the difficulty of integer factorisation for its security. 
+
+                            </p><p>Often, a public key cryptosystem is only used to encrypt the key for a separate symmetric key cryptosystem, as the latter tend to be faster. A symmetric key is used both to encrypt and decrypt information.
+
+                            </p><p><a href=" https://doi.org/10.1109%2Fsfcs.1994.365700">Shor's algorithm</a>, first proposed in 1994, would allow a quantum computer to factorise an integer as fast as the two factors could be multiplied, threatening the security of RSA encryption.
+
+
+                            A set of qubits is put in a superposition of states, with each state representing the result of an operation called modular exponentiation for a different input. On a classical computer, each modular exponent would need to be calculated seperately. Then, states representing numbers with a particular algebraic relation to the one of the factors to be found are amplified, and the system is measured. If the measurement returns one of the amplified states, then the factor can be found. If not, the process is repeated.
+                            
+
+                        
+                            </p><p><a href="https://www.nature.com/articles/nphoton.2012.259">As of 2024</a>, the largest number to be factorised with a variant of shor's algorithm was 21, using a computer with 1 <a href="#Superconducting Quantum Computers">superconducting qubits</a>, recycled so that additional qubits weren't needed, and a single qutrit - a three instead of two level system. To factorise numbers of the size used in modern cryptography, thousands of qubits would be needed.
+                            
+
+                            However, it's possible for a bad actor to collect encrypted data now, in anticipation of advances in quantum computing that would allow them to decrypt it. For this reason, both <a href="https://signal.org/blog/pqxdh/">Signal</a> (the encryption protocol used by Whatsapp and Google messages) and <a href="https://security.apple.com/blog/imessage-pq3">Apple's iMessage</a> are transferring to "learning with errors" public key cryptography, which is thought to be resistant to quantum computer based attacks. Quantum search algorithms such as <a href="#Grover">Grover's algorithm</a> could be used to decrypt symmetric key systems, but their advantage over classical algorithms is comparatively small; increasing key size is thought to provide sufficient protection.
+                            
+                            </p>
+                            
+
+
+
+
+                    </div>
+                </div>
+                </div>    
+            </section>
+            <hr class="m-0" />
+            <!-- Skills-->
+            <section class="resume-section" id="Grover">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Grover's Algorithm</h2>
+                    <p>
+                        Quantum computing offers a significant acceleration over classical computers for a straightforward challenge known as the
+                        <a href="https://arxiv.org/pdf/quant-ph/9706033.pdf">unstructured search problem</a>.
+                         This is demonstrated by Grover’s algorithm whereby a series of quantum gates are applied to a superposition of all possible states. The unstructured 
+                         search problem consists of finding a specific element in a given unsorted list. This can be as simple a finding the correct key out of 10 for 1 lock. 
+                         In the classical case, one would have to check each key individually until the correct one has been found. The average time to find the correct key 
+                         for a system with N keys and 1 lock would be N over 2. Grover devised an algorithm using quantum computing to reduce this time to find the given 
+                         element to an order of <a href="https://link.springer.com/article/10.1007/s11227-022-04923-4"> root N</a>. 
+                         When the unsorted list has a large number of elements, Grover’s algorithm provides a huge speed up to the classical computer. 
+
+                         <p>Consider a system with 3 qubits and hence 8 possible states. These possible states are represented by 
+                         000, 001, 010, 011, 100, 101, 110, 111 where the state that is being searched for is 010. The first 
+                         step is to prepare the state vector such that it is a superposition of all possible states instead 
+                         of belonging to just one of the eight states.
+                         <p>
+                            <center><figure>
+                            <img src="assets/img/Figure 1.png" alt="Description of the image">
+                            <figcaption>Figure 1 shows the state 000.</figcaption>
+                            </figure>
+                            </centre></center>
+                            <p>
+                            A <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9798970">Hadamard</a> gate is applied to all the 
+                         qubits. The resulting state vector has an equal amplitude and hence probability of measuring each 
+                         of the eight states. 
+                         <p>
+                            <center><figure>
+                            <img src="assets/img/Figure 2.png" alt="Description of the image">
+                            <figcaption>Figure 2 shows the state vector as a superposition of all possible states.</figcaption>
+                            </figure>
+                            <p></center>
+                         The next step is to apply the <a href="https://arxiv.org/pdf/quant-ph/0301079.pdf">search</a> operator which flips the amplitude of the 
+                         state that is being searched for, which in this case is 010. 
+                         <p>
+                            <center><figure>
+                            <img src="assets/img/Figure 3.png" alt="Description of the image">
+                            <figcaption>Figure 3 shows the flipped amplidte of the searched for state.</figcaption>
+                            </figure>
+                            <p></center>
+                        To make the searched for state distinguishable 
+                         from the other states the diffusion operator is applied. This operator flips the amplitude of all the 
+                         state vectors about the mean amplitude. As a result, the amplitude of the searched for state is increased 
+                         and the other state amplitudes are reduced. 
+                         <p>
+                            <center><figure>
+                            <img src="assets/img/Figure 4.png" alt="Description of the image">
+                            <figcaption>Figure 4 shows the state vector after being flipped about the mean amplitude.</figcaption>
+                            </figure>
+                            <p></center>
+                        The combination of these operators applied multiple times 
+                         causes the amplitude of the searched for state to further increase. After approximately root N iterations 
+                         the desired quantum state can be measured with a great accuracy. 
+                        </p>
+                        
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Interests-->
+            <section class="resume-section" id="dev">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Quantum Error Correction: Surface Codes</h2>
+                    <p>When storing or transmitting data, errors can happen that will corrupt the message. Error correction codes (ECCs) are algorithms that detect and correct those errors. Classical ECCs are well understood and implemented. However, when implementing ECCs in a quantum computer, several issues arise.
+                        We will see how to resolve those issues, followed by an example of a promising quantum ECC.</p>
+                    <p>A straight forward way of implementing an ECC is to repeat the message several times, and hope that only a minority of the copies are corrupted. However, this is not efficient since a lot of data needs to be transmitted. Another strategy is to use redundancy: 
+                        additional bits, known as check bits, are added to the original data bits according to specific rules. This process is called encoding. Then, during the decoding process, the received data is analysed to check for errors. If the check bit doesn’t correspond to the original data bits, then an error has occurred.</p>
+                    <p>We run into some problems when we try to adapt existing classical methods for quantum error correction (QEC). Firstly, while the classical error is a bit flip, a quantum error can be a bit flip and/or a phase change. This means that there is a continuum, an infinity, of errors. To resolve this, we decompose errors in a linear combination of bit and phase flips, 
+                        represented by X and Z Pauli matrices respectively. Then if a code can correct these two basic flips, it can correct any possible error.</p>
+                    <p>Another problem is the fact that we can't make a perfect copy of a quantum state. This means we can't use redundancy like we would in classical ECC. Instead, we encode our states through quantum gates, entangling them with other qubits. This effectively spreads the quantum information, see the picture below
+                        <a href="https://doi.org/10.48550/arXiv.0904.2557">[1]</a>.</p>
+                    <center><img src="assets/img/cnot encoding.png" height="100"></center>
+                    <p>The final problem is the wavefunction collapse. If we make a measurement on our qubit to determine if it has an error, we will corrupt the information it holds. The solution is stabilizer codes. First, we entangle the qubits with servus qubits. These servi don't hold any of the original information- they're like a piece of scrap paper. Then, we make a so called stabilizer measurement on the servus qubit, 
+                        and this won't affect the original qubit. If the original qubit has no error, its entangled servus will be measured to 0 with certainty. If there is an error, the servus measures as 1: we have detected the error.</p>
+                    <p>By construction, the stabilizer returns 0 if it commutes with the error, and 1 if it anti-commutes with the error. The task of building a good code therefore involves finding stabilizers that anti-commute with the errors to be detected. It turns out that commutativity between stablizers and errors depends on the number of common qubits they act on. In particular, they will anti-commute if they intersect on an odd number of qubits
+                        <a href="https://doi.org/10.1038/ncomms7983">[2]</a>.</p>
+                        <p>Surface codes use their topology and the above property to create an error-protected ’fabric’. The surface codes’ elementary element is the four-cycle. 
+                        It is made up of two original qubits D and two servi bits S, connected by edges representing
+                        X (red) and Z (blue) control gates. The edges are controlled by the servus
+                        and act on the logical qubit: these operations are the gates with which the
+                        stabilizers of the four-cycle are measured. Surface codes are then formed by tiling together multiple four-cycles to form
+                        square lattices.</p>
+                        <center><img src="assets/img/surface.png" height="250"></center>
+                    <p>In the figure (a), we have four tilings of the four-cycle <a href="https://doi.org/10.48550/arXiv.1907.11157">[3]</a>. A stabilizer is three connected lines of the same color. In (b), the Z error (phase-flip) on qubit D<sub>1</sub> only anti-commutes with the stabilizer consisting of the three top red lines. 
+                        This is because the error intersects once with the stabilizer, and a Z error always commutes with the Z  stabilizer (blue lines). The lines are connected to servus S<sub>1</sub>, which is colored in red in to indicate it will measure as 1. This is how errors are detected in the surface code. This example is very limited: for instance simultaneous X errors on D<sub>1</sub> and D<sub>4</sub> will go undetected. 
+                        As they intersect twice with the three blue lines on the left, stabilizer and error commutes, so the servus S<sub>2</sub> measures 0. More tilings of the cycles will reduce the number of undetected errors.</p>
+                    <p>Surface codes can be expanded relatively easily, which makes them suitable for larger quantum systems. Additionally, the way they are built and how they work is relatively straightforward in the complex world of quantum physics. This simplicity makes them easier to implement with current technology, bringing quantum computing closer to reality
+                        <a href="https://doi.org/10.1103/physreva.86.032324">[4]</a>. </p>
+                       
+                </div>
+            
+            </section>
+            <hr class="m-0" />
+            <!-- Awards-->
+            <section class="resume-section" id="ER=EPR">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">ER = EPR and Quantum Simulations</h2>
+                    <p>
+                        Einstein-Rosen bridges are wormholes speculated by the two physicists in 1935. They connect two separate regions of spacetime with the ends being a black hole and a white hole (a black hole in reversed time). More can be seen at <a href="https://kardashev.fandom.com/wiki/Einstein%E2%80%93Rosen_bridge">ER</a>. EPR (now with the help of Podolsky) works with quantum entanglement of particles that have shared information over large distances, meaning measurement of one of the particles gives information about the other leading to non-locality and the EPR paradox. More infomration can be seen at <a href="https://www.caltech.edu/about/news/physicists-observe-wormhole-dynamics-using-a-quantum-computer">EPR</a>.     
+                    </p>
+
+                    <p>
+                        ER = EPR was proposed by Maldacena and Susskind suggesting that these two theories are identical, the general relativity behind wormholes in 3 + 1 space time is the same as quantum teleportation in one lower dimension. This supports the holographic principle in which 3 dimensional space can be represented by quantum information on a 2 dimensional surface. More can be seen about the <a href="https://www.nature.com/articles/s41586-022-05424-3">Holographic principle</a>. 
+                    </p>
+                    <center><img src="assets/img/ER=EPR.png" height="300"/></center>
+                    <p></p>
+                    <p>
+                        It is theorised that black holes display any information that falls into the black hole on their surface with an associated entropy that is carried away by Hawking radiation over large time scales (this saves us from the information paradox of black holes). Particles from Hawking radiation are entangled with the black hole itself. More can be seen about <a href="https://www.scientificamerican.com/article/black-hole-discovery-helps-to-explain-quantum-nature-of-the-cosmos/#:~:text=So%20the%20holographic%20principle%20says,then%20the%20entropies%20will%20match.">Black Hole Entropy</a>. ER = EPR could have important consequences for a future theory of quantum gravity as it provides a specific link between the two theories and has been seen in quantum simulation experiments.
+                    </p>
+                    <h3 class="mb-5">Quantum Experiment</h3>
+                    <p>
+                        These following steps are the process of a quantum simulation that proves ER=EPR and is an example of quantum computers being used to simulate theories. This procedure can be seen in the paper <a href="https://arxiv.org/pdf/2301.03522.pdf#:~:text=The%20point%20is%20that%20according,infinite%20qubits%E2%80%9D%20%5B14%5D."> The Neverending Story of
+                        the Eternal Wormhole and the Noisy Sycamore</a>. On a Sycamore chip, 7 qubits (L) on the left hand side were entangled with 7 other identical qubits (R) on the right hand side. This is an example of a SYK model and uses machine learning to produce this. The L qubits in the L register are time evolved backwards in time. All operators involving the Hamiltonian of the system were evaluated using the Trotter step to first order using one step, with no significant error. 
+                    </p>
+
+                    <p>
+                        There is a qubit P in a register Q and a qubit Q in register P that are entangled. A SWAP gate is used on P so that its information can be sent to L. L is time evolved forwards in time and P becomes entangled with the 7 qubits on L (known as the carrier qubits). L and R become entangled using an operator \(e^{i\mu V}\) where V is the coupling operator, using the Trotter step again. Side R is then time evolved forwards in time and the information from P is measured on the register T. 
+                    </p>
+
+                    <p>
+                        Information has been quantum teleported between the qubits. This process can be seen in the diagram below. The equation given in this image represents the mutual information stored between the qubits and S gives the respective Von Neumann entropy (using the density matrices). For \(\mu\) < 0 (low temperature limit), the information undergoes wormhole teleportation. For \(\mu\) > 0 (high temperature limit), The information of P is scrambled when entangled with the 7 qubits on L but not unscrambled and so undergoes scrambling teleportation.
+                    </p>
+                    
+                    <center><img src="assets/img/ER=EPRexperiment.png" class="center" height="300"/></center>
+                    
+                </div>
+            
+            </section>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
